@@ -77,14 +77,12 @@ BRIDGE_ELISP = {
 
 def bridge_source_write(path: str, content: str) -> str:
     return (
-        "from python_bridge import get_emacs_func_result\n"
-        "import json\n"
         "result = get_emacs_func_result(\n"
         '    "ox-bridge-write",\n'
         f"    {path!r},\n"
         f"    {content!r},\n"
         ")\n"
-        "print(json.dumps(result, ensure_ascii=False))\n"
+        "print(result)\n"
     )
 
 
@@ -102,14 +100,12 @@ def normalize_edits(edits: list) -> list:
 def bridge_source_edit(path: str, edits: list) -> str:
     edits_json = json.dumps(normalize_edits(edits), ensure_ascii=False)
     return (
-        "from python_bridge import get_emacs_func_result\n"
-        "import json\n"
         "result = get_emacs_func_result(\n"
         '    "ox-bridge-edit",\n'
         f"    {path!r},\n"
         f"    {edits_json!r},\n"
         ")\n"
-        "print(json.dumps(result, ensure_ascii=False))\n"
+        "print(result)\n"
     )
 
 
