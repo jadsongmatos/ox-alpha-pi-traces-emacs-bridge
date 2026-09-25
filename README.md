@@ -36,6 +36,32 @@ python convert_traces.py traces/ out_tools/ --system-prompt system_prompt.md --m
 `eval_in_emacs` is never emitted: it is fire-and-forget and always returns
 `nil`. The converter only emits synchronous EPC calls.
 
+## Dataset finalization
+
+This repository also publishes the deterministic curation snapshot in
+`final_v1/`. Rebuild it from the pipeline workspace with:
+
+```bash
+python finalize_dataset.py --root dataset_build --output dataset_build/final_v1
+```
+
+The snapshot contains `manifest.json`, `schema.json`, `quality_report.json`,
+curation labels, explicit-only goal review, negative-example candidates,
+lexical leakage review, reviewed queue decisions, splits, and
+`checksums.sha256`. It covers 2,246 traces: 2,212 valid and 34 quarantined.
+The current freeze ID is
+`afe9aef614d24268245c7970f68eac5dfac1dd9296d606cf82d06ffb83703266`.
+
+### Curation Stats
+
+- **Outcomes**: 2118 success, 39 partial_success, 17 inconclusive, 38 failure, 34 quarantined
+- **Difficulty**: 792 easy, 1197 medium, 257 hard
+- **Negative examples**: 339
+
+The snapshot is reproducible, but semantic labels remain candidates. The
+manifest and quality report keep `human_approval_required: true`; raw traces
+are never modified by finalization.
+
 ## Emacs side
 
 The traces call methods that must be registered in Emacs with
